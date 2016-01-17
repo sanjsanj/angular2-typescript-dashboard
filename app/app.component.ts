@@ -8,13 +8,26 @@ interface Hero {
 @Component({
   selector: 'my-app',
   template:`
+
   <h1>{{title}}</h1>
+
   <h2>My Heroes</h2>
   <ul class="heroes">
-    <li *ngFor="#hero of heroes">
+    <li *ngFor="#hero of heroes"
+      [class.selected]="hero === selectedHero"
+      (click)="onSelect(hero)">
       <span class="badge">{{hero.id}}</span> {{hero.name}}
     </li>
   </ul>
+
+  <div *ngIf="selectedHero">
+    <h2>{{selectedHero.name}} details!</h2>
+    <div><label>id: </label>{{selectedHero.id}}</div>
+    <div>
+      <label>name: </label>
+      <input [(ngModel)]="selectedHero.name" placeholder="name" />
+    </div>
+  </div>
   `,
   styles:[`
     .selected {
@@ -69,6 +82,9 @@ interface Hero {
 export class AppComponent {
   public title = "Angular2 Typescript Dashboard";
   public heroes = HEROES;
+  public selectedHero: Hero;
+
+  onSelect(hero: Hero) { this.selectedHero = hero; }
 }
 
 var HEROES: Hero[] = [
@@ -82,4 +98,4 @@ var HEROES: Hero[] = [
   { "id": 18, "name": "Dr IQ" },
   { "id": 19, "name": "Magma" },
   { "id": 20, "name": "Tornado" }
-];
+  ];
